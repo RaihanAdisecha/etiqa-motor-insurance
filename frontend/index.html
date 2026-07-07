@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Etiqa Motor Vehicle Insurance | Mulai Pengajuan</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <header class="app-header">
+    <div class="app-header__inner">
+      <div>
+        <div class="app-header__logo">Etiqa Insurance</div>
+        <div class="app-header__tagline">Motor Vehicle Insurance Indonesia</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-container page-container--wide">
+
+    <!-- ==========================================================
+         LANDING SECTION
+         ========================================================== -->
+    <section id="landing-section">
+      <div class="page-hero">
+        <h1>Lindungi Kendaraan Anda Hari Ini</h1>
+        <p>
+          Dapatkan penawaran asuransi kendaraan bermotor sesuai tarif resmi
+          OJK dalam hitungan menit. Cepat, transparan, dan mudah.
+        </p>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-card__icon">🚗</div>
+          <h3>Mobil &amp; Motor</h3>
+          <p class="mb-0">Cakupan untuk kendaraan roda dua dan roda empat pribadi.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card__icon">📋</div>
+          <h3>Tarif Resmi OJK</h3>
+          <p class="mb-0">Mengacu pada SEOJK No. 6/SEOJK.05/2017.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card__icon">⚡</div>
+          <h3>Proses Cepat</h3>
+          <p class="mb-0">Dari quote hingga polis terbit dalam satu alur.</p>
+        </div>
+      </div>
+
+      <div class="card text-center">
+        <h2>Mulai Pengajuan Asuransi</h2>
+        <p>Isi data diri dan kendaraan Anda untuk mendapatkan estimasi premi.</p>
+        <button id="btn-start" class="btn btn-primary">Mulai Sekarang</button>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         FORM SECTION (Customer Info -> Vehicle Info -> Coverage)
+         ========================================================== -->
+    <section id="form-section" class="hidden">
+
+      <!-- Progress Stepper -->
+      <div class="stepper">
+        <div class="stepper__step stepper__step--active" data-step="1">
+          <div class="stepper__circle">1</div>
+          <div class="stepper__label">Data Diri</div>
+        </div>
+        <div class="stepper__step" data-step="2">
+          <div class="stepper__circle">2</div>
+          <div class="stepper__label">Kendaraan</div>
+        </div>
+        <div class="stepper__step" data-step="3">
+          <div class="stepper__circle">3</div>
+          <div class="stepper__label">Coverage</div>
+        </div>
+        <div class="stepper__step" data-step="4">
+          <div class="stepper__circle">4</div>
+          <div class="stepper__label">Quote</div>
+        </div>
+        <div class="stepper__step" data-step="5">
+          <div class="stepper__circle">5</div>
+          <div class="stepper__label">Underwriting</div>
+        </div>
+        <div class="stepper__step" data-step="6">
+          <div class="stepper__circle">6</div>
+          <div class="stepper__label">Polis</div>
+        </div>
+      </div>
+
+      <div id="form-alert-container"></div>
+
+      <!-- ---------------- STEP 1: CUSTOMER INFO ---------------- -->
+      <div class="card" id="step-customer">
+        <div class="card__header">
+          <h2 class="mb-0">Data Diri</h2>
+        </div>
+
+        <div class="form-group">
+          <label for="customer-name">Nama Lengkap <span class="required">*</span></label>
+          <input type="text" id="customer-name" placeholder="Contoh: Andi Wijaya" />
+          <div class="field-error" id="error-customer-name">Nama wajib diisi (minimal 2 karakter).</div>
+        </div>
+
+        <div class="form-group">
+          <label for="customer-email">Email <span class="required">*</span></label>
+          <input type="email" id="customer-email" placeholder="contoh@email.com" />
+          <div class="field-error" id="error-customer-email">Format email tidak valid.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="customer-phone">Nomor Telepon <span class="required">*</span></label>
+          <input type="tel" id="customer-phone" placeholder="08123456789" />
+          <div class="field-error" id="error-customer-phone">Nomor telepon minimal 8 digit angka.</div>
+        </div>
+
+        <div class="btn-row">
+          <div></div>
+          <button class="btn btn-primary" id="btn-to-vehicle">Lanjut ke Data Kendaraan</button>
+        </div>
+      </div>
+
+      <!-- ---------------- STEP 2: VEHICLE INFO ---------------- -->
+      <div class="card hidden" id="step-vehicle">
+        <div class="card__header">
+          <h2 class="mb-0">Data Kendaraan</h2>
+        </div>
+
+        <div class="form-group">
+          <label>Tipe Kendaraan <span class="required">*</span></label>
+          <div class="option-grid">
+            <div class="option-card" data-value="car" id="option-vehicle-car">
+              <div class="option-card__title">🚗 Mobil</div>
+              <p class="option-card__desc">Kendaraan roda empat pribadi</p>
+            </div>
+            <div class="option-card" data-value="motorcycle" id="option-vehicle-motorcycle">
+              <div class="option-card__title">🏍️ Motor</div>
+              <p class="option-card__desc">Kendaraan roda dua pribadi</p>
+            </div>
+          </div>
+          <div class="field-error" id="error-vehicle-type">Pilih tipe kendaraan terlebih dahulu.</div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="vehicle-brand">Merek <span class="required">*</span></label>
+            <input type="text" id="vehicle-brand" placeholder="Contoh: Toyota" />
+            <div class="field-error" id="error-vehicle-brand">Merek kendaraan wajib diisi.</div>
+          </div>
+          <div class="form-group">
+            <label for="vehicle-model">Model <span class="required">*</span></label>
+            <input type="text" id="vehicle-model" placeholder="Contoh: Avanza" />
+            <div class="field-error" id="error-vehicle-model">Model kendaraan wajib diisi.</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="vehicle-year">Tahun Kendaraan <span class="required">*</span></label>
+            <input type="number" id="vehicle-year" placeholder="Contoh: 2022" />
+            <div class="field-error" id="error-vehicle-year">Tahun kendaraan tidak valid.</div>
+          </div>
+          <div class="form-group">
+            <label for="vehicle-value">Nilai Pasar Kendaraan (Rp) <span class="required">*</span></label>
+            <input type="number" id="vehicle-value" placeholder="Contoh: 250000000" />
+            <div class="field-error" id="error-vehicle-value">Nilai pasar harus lebih dari 0.</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="vehicle-region">Region <span class="required">*</span></label>
+          <select id="vehicle-region">
+            <option value="">-- Pilih Region --</option>
+            <option value="Region I">Region I</option>
+            <option value="Region II">Region II</option>
+            <option value="Region III">Region III</option>
+          </select>
+          <div class="field-hint">
+            Region mengacu pada wilayah risiko OJK. Region I umumnya mencakup DKI Jakarta,
+            Banten, dan Jawa Barat; Region II Sumatera (di luar Aceh, Sumut, Sumbar, Riau);
+            Region III sisanya di Indonesia.
+          </div>
+          <div class="field-error" id="error-vehicle-region">Region wajib dipilih.</div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-secondary" id="btn-back-to-customer">Kembali</button>
+          <button class="btn btn-primary" id="btn-to-coverage">Lanjut ke Coverage</button>
+        </div>
+      </div>
+
+      <!-- ---------------- STEP 3: COVERAGE ---------------- -->
+      <div class="card hidden" id="step-coverage">
+        <div class="card__header">
+          <h2 class="mb-0">Pilih Jenis Coverage</h2>
+        </div>
+
+        <div class="option-grid">
+          <div class="option-card" data-value="Comprehensive" id="option-coverage-comprehensive">
+            <div class="option-card__title">Comprehensive</div>
+            <p class="option-card__desc">
+              Menanggung kerugian akibat kecelakaan (sebagian maupun total)
+              serta risiko kehilangan kendaraan.
+            </p>
+          </div>
+          <div class="option-card" data-value="TLO" id="option-coverage-tlo">
+            <div class="option-card__title">TLO (Total Loss Only)</div>
+            <p class="option-card__desc">
+              Menanggung kerugian hanya jika kerusakan mencapai ≥75% nilai
+              kendaraan atau kendaraan hilang.
+            </p>
+          </div>
+        </div>
+        <div class="field-error" id="error-coverage-type">Pilih jenis coverage terlebih dahulu.</div>
+
+        <div class="btn-row">
+          <button class="btn btn-secondary" id="btn-back-to-vehicle">Kembali</button>
+          <button class="btn btn-primary" id="btn-calculate-premium">
+            <span id="btn-calculate-text">Hitung Premi</span>
+          </button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    &copy; 2026 Etiqa Insurance Indonesia. Technical Assessment Project.
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>

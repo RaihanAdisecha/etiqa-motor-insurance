@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Etiqa Motor Vehicle Insurance | Polis</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <header class="app-header no-print">
+    <div class="app-header__inner">
+      <div>
+        <div class="app-header__logo">Etiqa Insurance</div>
+        <div class="app-header__tagline">Motor Vehicle Insurance Indonesia</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-container page-container--wide">
+
+    <!-- Progress Stepper -->
+    <div class="stepper no-print">
+      <div class="stepper__step stepper__step--done" data-step="1">
+        <div class="stepper__circle">1</div>
+        <div class="stepper__label">Data Diri</div>
+      </div>
+      <div class="stepper__step stepper__step--done" data-step="2">
+        <div class="stepper__circle">2</div>
+        <div class="stepper__label">Kendaraan</div>
+      </div>
+      <div class="stepper__step stepper__step--done" data-step="3">
+        <div class="stepper__circle">3</div>
+        <div class="stepper__label">Coverage</div>
+      </div>
+      <div class="stepper__step stepper__step--done" data-step="4">
+        <div class="stepper__circle">4</div>
+        <div class="stepper__label">Quote</div>
+      </div>
+      <div class="stepper__step stepper__step--done" data-step="5">
+        <div class="stepper__circle">5</div>
+        <div class="stepper__label">Underwriting</div>
+      </div>
+      <div class="stepper__step stepper__step--active" data-step="6">
+        <div class="stepper__circle">6</div>
+        <div class="stepper__label">Polis</div>
+      </div>
+    </div>
+
+    <div id="page-alert-container" class="no-print"></div>
+
+    <!-- ============================================================
+         LOADING STATE (ditampilkan saat menerbitkan / mengambil polis)
+         ============================================================ -->
+    <div class="card no-print" id="policy-loading-section">
+      <p class="text-center">
+        <span class="loading-spinner"></span>
+        Sedang memproses penerbitan polis Anda...
+      </p>
+    </div>
+
+    <!-- ============================================================
+         POLICY ISSUED CARD (hidden sampai data polis siap)
+         ============================================================ -->
+    <div class="card hidden" id="policy-section">
+      <div class="card__header">
+        <h2 class="mb-0">Polis Diterbitkan</h2>
+      </div>
+
+      <div class="text-center mb-3">
+        <span class="status-badge status-badge--accepted">Policy Issued</span>
+      </div>
+
+      <div class="card__section text-center">
+        <h3>Nomor Polis</h3>
+        <p class="policy-number" id="policy-number">-</p>
+        <p class="field-hint" id="policy-issued-at">-</p>
+      </div>
+
+      <div class="card__section">
+        <h3>Data Diri</h3>
+        <ul class="summary-list">
+          <li><span class="label">Nama</span><span class="value" id="detail-customer-name">-</span></li>
+          <li><span class="label">Email</span><span class="value" id="detail-customer-email">-</span></li>
+          <li><span class="label">Telepon</span><span class="value" id="detail-customer-phone">-</span></li>
+        </ul>
+      </div>
+
+      <div class="card__section">
+        <h3>Data Kendaraan</h3>
+        <ul class="summary-list">
+          <li><span class="label">Tipe Kendaraan</span><span class="value" id="detail-vehicle-type">-</span></li>
+          <li><span class="label">Merek / Model</span><span class="value" id="detail-vehicle-brand-model">-</span></li>
+          <li><span class="label">Tahun</span><span class="value" id="detail-vehicle-year">-</span></li>
+          <li><span class="label">Nilai Pasar</span><span class="value" id="detail-vehicle-value">-</span></li>
+          <li><span class="label">Region</span><span class="value" id="detail-vehicle-region">-</span></li>
+          <li><span class="label">Kategori Tarif</span><span class="value" id="detail-vehicle-category">-</span></li>
+        </ul>
+      </div>
+
+      <div class="card__section">
+        <h3>Perhitungan Premi</h3>
+        <ul class="summary-list">
+          <li><span class="label">Jenis Coverage</span><span class="value" id="detail-coverage">-</span></li>
+          <li><span class="label">Rate yang Digunakan</span><span class="value" id="detail-rate">-</span></li>
+          <li><span class="label">Premi</span><span class="value" id="detail-premium">-</span></li>
+        </ul>
+      </div>
+
+      <div class="card__section">
+        <h3>Status Underwriting</h3>
+        <ul class="summary-list">
+          <li><span class="label">Keputusan</span><span class="value" id="detail-underwriting-decision">-</span></li>
+        </ul>
+      </div>
+
+      <div class="btn-row no-print">
+        <button class="btn btn-secondary" id="btn-back-home">Kembali ke Beranda</button>
+        <button class="btn btn-primary" id="btn-print-policy">Print Polis</button>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         SEARCH POLICY CARD (untuk akses via GET /policy/{policy_number})
+         ============================================================ -->
+    <div class="card no-print" id="policy-search-section">
+      <div class="card__header">
+        <h2 class="mb-0">Cek Polis Lain</h2>
+      </div>
+      <p>Masukkan nomor polis untuk melihat kembali detail polis yang sudah diterbitkan.</p>
+      <div class="form-group">
+        <label for="input-search-policy-number">Nomor Polis</label>
+        <input type="text" id="input-search-policy-number" placeholder="Contoh: ETQ-2026-000001" />
+        <div class="field-error" id="error-search-policy-number">Nomor polis tidak ditemukan.</div>
+      </div>
+      <div class="btn-row">
+        <div></div>
+        <button class="btn btn-primary" id="btn-search-policy">
+          <span id="btn-search-policy-text">Cari Polis</span>
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="app-footer no-print">
+    &copy; 2026 Etiqa Insurance Indonesia. Technical Assessment Project.
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/policy.js"></script>
+</body>
+</html>

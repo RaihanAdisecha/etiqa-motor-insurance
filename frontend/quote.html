@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Etiqa Motor Vehicle Insurance | Quote Summary</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <header class="app-header">
+    <div class="app-header__inner">
+      <div>
+        <div class="app-header__logo">Etiqa Insurance</div>
+        <div class="app-header__tagline">Motor Vehicle Insurance Indonesia</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-container page-container--wide">
+
+    <!-- Progress Stepper -->
+    <div class="stepper">
+      <div class="stepper__step stepper__step--done" data-step="1">
+        <div class="stepper__circle">1</div>
+        <div class="stepper__label">Data Diri</div>
+      </div>
+      <div class="stepper__step stepper__step--done" data-step="2">
+        <div class="stepper__circle">2</div>
+        <div class="stepper__label">Kendaraan</div>
+      </div>
+      <div class="stepper__step stepper__step--done" data-step="3">
+        <div class="stepper__circle">3</div>
+        <div class="stepper__label">Coverage</div>
+      </div>
+      <div class="stepper__step stepper__step--active" data-step="4">
+        <div class="stepper__circle">4</div>
+        <div class="stepper__label">Quote</div>
+      </div>
+      <div class="stepper__step" data-step="5">
+        <div class="stepper__circle">5</div>
+        <div class="stepper__label">Underwriting</div>
+      </div>
+      <div class="stepper__step" data-step="6">
+        <div class="stepper__circle">6</div>
+        <div class="stepper__label">Polis</div>
+      </div>
+    </div>
+
+    <div id="page-alert-container"></div>
+
+    <!-- ============================================================
+         QUOTE SUMMARY CARD
+         ============================================================ -->
+    <div class="card" id="quote-section">
+      <div class="card__header">
+        <h2 class="mb-0">Ringkasan Penawaran (Quote Summary)</h2>
+      </div>
+
+      <div class="card__section">
+        <h3>Data Diri</h3>
+        <ul class="summary-list">
+          <li><span class="label">Nama</span><span class="value" id="summary-customer-name">-</span></li>
+          <li><span class="label">Email</span><span class="value" id="summary-customer-email">-</span></li>
+          <li><span class="label">Telepon</span><span class="value" id="summary-customer-phone">-</span></li>
+        </ul>
+      </div>
+
+      <div class="card__section">
+        <h3>Data Kendaraan</h3>
+        <ul class="summary-list">
+          <li><span class="label">Tipe Kendaraan</span><span class="value" id="summary-vehicle-type">-</span></li>
+          <li><span class="label">Merek / Model</span><span class="value" id="summary-vehicle-brand-model">-</span></li>
+          <li><span class="label">Tahun</span><span class="value" id="summary-vehicle-year">-</span></li>
+          <li><span class="label">Nilai Pasar</span><span class="value" id="summary-vehicle-value">-</span></li>
+          <li><span class="label">Region</span><span class="value" id="summary-vehicle-region">-</span></li>
+          <li><span class="label">Kategori Tarif</span><span class="value" id="summary-vehicle-category">-</span></li>
+        </ul>
+      </div>
+
+      <div class="card__section">
+        <h3>Perhitungan Premi</h3>
+        <ul class="summary-list">
+          <li><span class="label">Jenis Coverage</span><span class="value" id="summary-coverage">-</span></li>
+          <li><span class="label">Rate yang Digunakan</span><span class="value" id="summary-rate">-</span></li>
+          <li><span class="label">Estimasi Premi</span><span class="value" id="summary-premium">-</span></li>
+        </ul>
+        <div class="field-hint">
+          Rate dihitung menggunakan midpoint dari range tarif resmi OJK
+          (SEOJK No. 6/SEOJK.05/2017) sesuai kategori kendaraan dan region Anda.
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-secondary" id="btn-back-to-form">Kembali &amp; Ubah Data</button>
+        <button class="btn btn-primary" id="btn-purchase">
+          <span id="btn-purchase-text">Purchase Insurance</span>
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="app-footer">
+    &copy; 2026 Etiqa Insurance Indonesia. Technical Assessment Project.
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/quote.js"></script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+markdown## 10. Deploy Backend ke Railway
+
+### 10.1 Persiapan
+
+Pastikan `backend/Procfile` dan `backend/railway.json` sudah ada di
+repository (keduanya sudah disiapkan di project ini):
+
+**`backend/Procfile`**
+web: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+
+**`backend/railway.json`**
+```json
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "NIXPACKS"
+  },
+  "deploy": {
+    "startCommand": "uvicorn app.main:app --host 0.0.0.0 --port $PORT",
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+  }
+}
+```
+
+Railway menggunakan **Nixpacks** sebagai builder otomatis yang mendeteksi
+`requirements.txt` dan menjalankan `pip install` tanpa konfigurasi
+tambahan. Variabel `$PORT` disediakan otomatis oleh Railway saat runtime
+— **jangan** di-hardcode ke port tertentu (misalnya `8000`) di
+Procfile/railway.json.
+
+### 10.2 Push Project ke GitHub
+
+Jika project belum ada di GitHub:
+
+```bash
+cd project
+git init
+git add .
+git commit -m "Initial commit - Etiqa MVI project"
+git branch -M main
+git remote add origin https://github.com/username/etiqa-mvi.git
+git push -u origin main
+```
+
+### 10.3 Connect GitHub ke Railway
+
+1. Buka [railway.app](https://railway.app) dan login (bisa menggunakan
+   akun GitHub).
+2. Klik **New Project** → pilih **Deploy from GitHub repo**.
+3. Pilih repository project ini. Jika repo belum muncul, klik
+   **Configure GitHub App** untuk memberi Railway akses ke repository
+   tersebut.
+4. Karena struktur project ini adalah monorepo (`frontend/` dan
+   `backend/` dalam satu repo), setelah project dibuat:
+   - Buka tab **Settings** pada service yang dibuat Railway.
+   - Cari bagian **Root Directory**, isi dengan `backend` — ini
+     memberi tahu Railway bahwa seluruh build & deploy hanya
+     mengacu ke folder `backend/`, bukan root repo.
+
+### 10.4 Konfigurasi Environment Variables di Railway
+
+1. Pada service backend di Railway, buka tab **Variables**.
+2. Tambahkan seluruh environment variable berikut (nilai sama seperti
+   `.env` lokal, tapi `DATABASE_URL` dan `CORS_ORIGINS` disesuaikan untuk
+   production):
+
+   | Key                              | Value                                                          |
+   |-----------------------------------|-----------------------------------------------------------------|
+   | `DATABASE_URL`                    | Connection string Supabase (sama seperti bagian 9.2)            |
+   | `APP_NAME`                        | `Etiqa Motor Vehicle Insurance API`                              |
+   | `APP_VERSION`                     | `1.0.0`                                                          |
+   | `DEBUG`                           | `False`                                                          |
+   | `CORS_ORIGINS`                    | `["https://nama-project-anda.vercel.app"]` (isi setelah frontend di-deploy ke Vercel, lihat bagian 10.6) |
+   | `POLICY_NUMBER_PREFIX`            | `ETQ`                                                            |
+   | `POLICY_NUMBER_YEAR`              | `2026`                                                           |
+   | `POLICY_NUMBER_SEQUENCE_DIGITS`   | `6`                                                               |
+
+3. Klik **Deploy** (atau Railway akan otomatis redeploy setiap kali ada
+   perubahan pada `Variables`).
+
+### 10.5 Mendapatkan URL Railway
+
+1. Setelah deployment sukses (cek tab **Deployments**, status harus
+   **Success**), buka tab **Settings** pada service.
+2. Pada bagian **Networking**, klik **Generate Domain** untuk
+   mendapatkan URL publik, formatnya seperti:
+https://etiqa-mvi-backend-production.up.railway.app
+3. Verifikasi backend berjalan dengan membuka:
+https://etiqa-mvi-backend-production.up.railway.app/docs
+   Halaman Swagger UI harus muncul dengan seluruh endpoint yang sama
+   seperti saat local development.
+
+### 10.6 Menghubungkan Frontend (Vercel) ke Backend (Railway)
+
+1. Buka `frontend/js/api.js`.
+2. Ubah nilai `API_BASE_URL` dari URL lokal menjadi URL Railway dari
+   langkah 10.5:
+
+```javascript
+   // Sebelum (local development):
+   const API_BASE_URL = "http://127.0.0.1:8000";
+
+   // Sesudah (production):
+   const API_BASE_URL = "https://etiqa-mvi-backend-production.up.railway.app";
+```
+
+3. Commit & push perubahan ini ke GitHub — jika frontend sudah
+   terhubung ke Vercel (lihat bagian 10.7), Vercel akan otomatis
+   redeploy dengan `API_BASE_URL` yang baru.
+
+### 10.7 Deploy Frontend ke Vercel
+
+1. Buka [vercel.com](https://vercel.com) dan login (bisa menggunakan
+   akun GitHub).
+2. Klik **Add New** → **Project**, pilih repository project ini.
+3. Pada konfigurasi project:
+   - **Root Directory**: pilih/isi `frontend` (karena frontend berada
+     di subfolder, bukan root repo).
+   - **Framework Preset**: pilih **Other** (karena ini static
+     HTML/CSS/JS tanpa framework/build step).
+   - **Build Command**: kosongkan (tidak diperlukan).
+   - **Output Directory**: kosongkan atau isi `.` (root dari
+     `frontend/`).
+4. Klik **Deploy**. Setelah selesai, Vercel akan memberikan URL seperti:
+https://etiqa-mvi-frontend.vercel.app
+
+### 10.8 Konfigurasi CORS (Langkah Terakhir)
+
+Setelah frontend memiliki URL Vercel yang final:
+
+1. Kembali ke dashboard **Railway** → tab **Variables** pada service
+   backend.
+2. Update `CORS_ORIGINS` dengan URL Vercel yang sebenarnya:
+CORS_ORIGINS=["https://etiqa-mvi-frontend.vercel.app"]
+
+   Jika ada custom domain atau preview deployment Vercel tambahan yang
+   perlu diizinkan, tambahkan sebagai array multi-value:
+CORS_ORIGINS=["https://etiqa-mvi-frontend.vercel.app","https://etiqa-mvi-frontend-git-main-username.vercel.app"]
+
+3. Railway akan otomatis redeploy backend dengan konfigurasi CORS baru.
+4. Buka aplikasi di URL Vercel dan lakukan test alur penuh (Customer →
+   Vehicle → Coverage → Quote → Purchase → Underwriting → Policy) untuk
+   memastikan tidak ada error CORS di browser console.
+
+### 10.9 Troubleshooting Deployment
+
+| Masalah                                              | Solusi                                                                     |
+|--------------------------------------------------------|--------------------------------------------------------------------------------|
+| `Access to fetch ... has been blocked by CORS policy`  | Pastikan URL Vercel di `CORS_ORIGINS` Railway **persis sama** (termasuk `https://`, tanpa trailing slash) dengan origin yang tampil di address bar browser |
+| Railway build gagal (`ModuleNotFoundError`)             | Pastikan **Root Directory** service Railway diset ke `backend`, bukan root repo |
+| Frontend memanggil `127.0.0.1:8000` di production       | Pastikan `API_BASE_URL` di `frontend/js/api.js` sudah diubah ke URL Railway sebelum push/deploy |
+| Railway deploy sukses tapi `/docs` menampilkan 502      | Cek tab **Logs** di Railway — biasanya karena `DATABASE_URL` salah/tidak bisa diakses dari Railway (pastikan Supabase project aktif dan tidak paused) |
+| Endpoint jalan di `/docs` tapi gagal dari frontend       | Buka DevTools → Network tab, cek response error persis apa; error 422 biasanya field request tidak sesuai `schemas.py` |
+
+---
+
+## 11. Ringkasan Checklist Deployment
+
+- [ ] Supabase project dibuat, `DATABASE_URL` didapat
+- [ ] Backend berjalan lokal, `/docs` bisa diakses, tabel otomatis terbuat
+- [ ] Project di-push ke GitHub
+- [ ] Railway project dibuat, Root Directory = `backend`
+- [ ] Environment variables diisi di Railway (termasuk `DATABASE_URL`)
+- [ ] Domain Railway di-generate, `/docs` production bisa diakses
+- [ ] `API_BASE_URL` di `frontend/js/api.js` diubah ke URL Railway
+- [ ] Vercel project dibuat, Root Directory = `frontend`
+- [ ] `CORS_ORIGINS` di Railway diupdate dengan URL Vercel final
+- [ ] Test alur penuh end-to-end di production (Landing → Policy Issued)
+
+---
+
+*Dibangun sebagai Technical Assessment untuk Etiqa Insurance Indonesia — 2026.*

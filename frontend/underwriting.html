@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Etiqa Motor Vehicle Insurance | Underwriting</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <header class="app-header">
+    <div class="app-header__inner">
+      <div>
+        <div class="app-header__logo">Etiqa Insurance</div>
+        <div class="app-header__tagline">Motor Vehicle Insurance Indonesia</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-container page-container--wide">
+
+    <!-- Progress Stepper -->
+    <div class="stepper">
+      <div class="stepper__step stepper__step--done" data-step="1">
+        <div class="stepper__circle">1</div>
+        <div class="stepper__label">Data Diri</div>
+      </div>
+      <div class="stepper__step stepper__step--done" data-step="2">
+        <div class="stepper__circle">2</div>
+        <div class="stepper__label">Kendaraan</div>
+      </div>
+      <div class="stepper__step stepper__step--done" data-step="3">
+        <div class="stepper__circle">3</div>
+        <div class="stepper__label">Coverage</div>
+      </div>
+      <div class="stepper__step stepper__step--done" data-step="4">
+        <div class="stepper__circle">4</div>
+        <div class="stepper__label">Quote</div>
+      </div>
+      <div class="stepper__step stepper__step--active" data-step="5">
+        <div class="stepper__circle">5</div>
+        <div class="stepper__label">Underwriting</div>
+      </div>
+      <div class="stepper__step" data-step="6">
+        <div class="stepper__circle">6</div>
+        <div class="stepper__label">Polis</div>
+      </div>
+    </div>
+
+    <div id="page-alert-container"></div>
+
+    <!-- ============================================================
+         UNDERWRITING QUESTIONS CARD
+         ============================================================ -->
+    <div class="card" id="underwriting-form-section">
+      <div class="card__header">
+        <h2 class="mb-0">Pertanyaan Underwriting</h2>
+      </div>
+      <p>
+        Jawab pertanyaan berikut dengan jujur. Jawaban Anda akan menentukan
+        apakah pengajuan asuransi dapat langsung disetujui (Accepted) atau
+        memerlukan peninjauan manual (Manual Review) oleh tim underwriting kami.
+      </p>
+
+      <!-- Question 1 -->
+      <div class="form-group">
+        <label>1. Apakah kendaraan Anda pernah mengalami kecelakaan besar? <span class="required">*</span></label>
+        <div class="yes-no-toggle" id="toggle-major-accident">
+          <button type="button" class="toggle-btn" data-value="true">Ya</button>
+          <button type="button" class="toggle-btn" data-value="false">Tidak</button>
+        </div>
+        <div class="field-error" id="error-major-accident">Pertanyaan ini wajib dijawab.</div>
+      </div>
+
+      <!-- Question 2 -->
+      <div class="form-group">
+        <label>2. Apakah kendaraan Anda mengalami modifikasi dari kondisi standar pabrik? <span class="required">*</span></label>
+        <div class="yes-no-toggle" id="toggle-modification">
+          <button type="button" class="toggle-btn" data-value="true">Ya</button>
+          <button type="button" class="toggle-btn" data-value="false">Tidak</button>
+        </div>
+        <div class="field-error" id="error-modification">Pertanyaan ini wajib dijawab.</div>
+      </div>
+
+      <!-- Question 3 -->
+      <div class="form-group">
+        <label>3. Apakah kendaraan digunakan untuk keperluan komersial (contoh: taksi online, rental, angkutan barang)? <span class="required">*</span></label>
+        <div class="yes-no-toggle" id="toggle-commercial-use">
+          <button type="button" class="toggle-btn" data-value="true">Ya</button>
+          <button type="button" class="toggle-btn" data-value="false">Tidak</button>
+        </div>
+        <div class="field-error" id="error-commercial-use">Pertanyaan ini wajib dijawab.</div>
+      </div>
+
+      <div class="field-hint">
+        Jika seluruh jawaban "Tidak", pengajuan akan otomatis <strong>Accepted</strong>.
+        Jika salah satu jawaban "Ya", pengajuan akan masuk status <strong>Manual Review</strong>
+        untuk ditinjau lebih lanjut oleh tim kami.
+      </div>
+
+      <div class="btn-row">
+        <div></div>
+        <button class="btn btn-primary" id="btn-submit-underwriting">
+          <span id="btn-submit-underwriting-text">Submit Underwriting</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         RESULT SECTION (hidden sampai hasil diterima)
+         ============================================================ -->
+    <div class="card hidden" id="underwriting-result-section">
+      <div class="card__header">
+        <h2 class="mb-0">Hasil Underwriting</h2>
+      </div>
+
+      <div class="text-center mb-3">
+        <span class="status-badge" id="underwriting-status-badge">-</span>
+      </div>
+
+      <div id="result-accepted-block" class="hidden">
+        <p class="text-center">
+          Selamat! Pengajuan Anda telah <strong>disetujui secara otomatis</strong>.
+          Silakan lanjutkan untuk menerbitkan polis Anda.
+        </p>
+        <div class="btn-row">
+          <div></div>
+          <button class="btn btn-primary" id="btn-to-policy">Lanjut ke Penerbitan Polis</button>
+        </div>
+      </div>
+
+      <div id="result-review-block" class="hidden">
+        <p class="text-center">
+          Terima kasih atas jawaban Anda. Berdasarkan jawaban yang diberikan,
+          pengajuan Anda memerlukan <strong>peninjauan manual (Manual Review)</strong>
+          oleh tim underwriting kami sebelum polis dapat diterbitkan. Tim kami akan
+          menghubungi Anda melalui email atau telepon yang telah didaftarkan.
+        </p>
+        <div class="btn-row">
+          <div></div>
+          <button class="btn btn-secondary" id="btn-back-home-review">Kembali ke Beranda</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="app-footer">
+    &copy; 2026 Etiqa Insurance Indonesia. Technical Assessment Project.
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/underwriting.js"></script>
+</body>
+</html>
