@@ -24,7 +24,7 @@
 // ------------------------------------------------------------
 // GANTI nilai ini dengan URL backend Railway setelah deploy,
 // contoh: "https://etiqa-mvi-backend.up.railway.app"
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL = "etiqa-motor-insurance-production.up.railway.app";
 
 // ------------------------------------------------------------
 // ERROR HANDLER TERPUSAT
