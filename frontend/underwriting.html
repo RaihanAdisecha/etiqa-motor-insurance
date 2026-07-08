@@ -58,6 +58,13 @@
     <div class="card" id="underwriting-form-section">
       <div class="card__header">
         <h2 class="mb-0">Pertanyaan Underwriting</h2>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 11L12 3L15 11" stroke="var(--color-primary)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6 8.5H18" stroke="var(--color-primary)" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M4 11C4 13.5 6.5 15 6.5 15C6.5 15 9 13.5 9 11" stroke="var(--color-primary)" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M15 11C15 13.5 17.5 15 17.5 15C17.5 15 20 13.5 20 11" stroke="var(--color-primary)" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M12 3V21M8 21H16" stroke="var(--color-primary)" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
       </div>
       <p>
         Jawab pertanyaan berikut dengan jujur. Jawaban Anda akan menentukan
@@ -66,8 +73,8 @@
       </p>
 
       <!-- Question 1 -->
-      <div class="form-group">
-        <label>1. Apakah kendaraan Anda pernah mengalami kecelakaan besar? <span class="required">*</span></label>
+      <div class="form-group question-block">
+        <div class="question-block__text">1. Apakah kendaraan Anda pernah mengalami kecelakaan besar? <span class="required">*</span></div>
         <div class="yes-no-toggle" id="toggle-major-accident">
           <button type="button" class="toggle-btn" data-value="true">Ya</button>
           <button type="button" class="toggle-btn" data-value="false">Tidak</button>
@@ -76,8 +83,8 @@
       </div>
 
       <!-- Question 2 -->
-      <div class="form-group">
-        <label>2. Apakah kendaraan Anda mengalami modifikasi dari kondisi standar pabrik? <span class="required">*</span></label>
+      <div class="form-group question-block">
+        <div class="question-block__text">2. Apakah kendaraan Anda mengalami modifikasi dari kondisi standar pabrik? <span class="required">*</span></div>
         <div class="yes-no-toggle" id="toggle-modification">
           <button type="button" class="toggle-btn" data-value="true">Ya</button>
           <button type="button" class="toggle-btn" data-value="false">Tidak</button>
@@ -86,8 +93,8 @@
       </div>
 
       <!-- Question 3 -->
-      <div class="form-group">
-        <label>3. Apakah kendaraan digunakan untuk keperluan komersial (contoh: taksi online, rental, angkutan barang)? <span class="required">*</span></label>
+      <div class="form-group question-block">
+        <div class="question-block__text">3. Apakah kendaraan digunakan untuk keperluan komersial (contoh: taksi online, rental, angkutan barang)? <span class="required">*</span></div>
         <div class="yes-no-toggle" id="toggle-commercial-use">
           <button type="button" class="toggle-btn" data-value="true">Ya</button>
           <button type="button" class="toggle-btn" data-value="false">Tidak</button>
@@ -115,6 +122,21 @@
     <div class="card hidden" id="underwriting-result-section">
       <div class="card__header">
         <h2 class="mb-0">Hasil Underwriting</h2>
+      </div>
+
+      <div class="result-illustration" id="result-illustration-accepted">
+        <svg width="72" height="72" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="9.5" stroke="var(--color-success)" stroke-width="1.6"/>
+          <path d="M8 12.5L10.5 15L16 9" stroke="var(--color-success)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <div class="result-illustration hidden" id="result-illustration-review">
+        <svg width="72" height="72" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="9.5" stroke="var(--color-warning)" stroke-width="1.6"/>
+          <path d="M12 7.5V13" stroke="var(--color-warning)" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="12" cy="16.3" r="0.9" fill="var(--color-warning)"/>
+        </svg>
       </div>
 
       <div class="text-center mb-3">
@@ -154,5 +176,39 @@
 
   <script src="js/api.js"></script>
   <script src="js/underwriting.js"></script>
+
+  <!-- ============================================================
+       Progressive enhancement: show/hide the correct result
+       illustration (accepted vs review) based on which result
+       block underwriting.js has revealed. This purely observes
+       the existing #result-accepted-block / #result-review-block
+       hidden class toggled by underwriting.js and mirrors it onto
+       the illustration wrappers. It does not alter any decision
+       logic, API calls, or state.
+       ============================================================ -->
+  <script>
+    (function syncResultIllustration() {
+      var acceptedBlock = document.getElementById("result-accepted-block");
+      var reviewBlock = document.getElementById("result-review-block");
+      var acceptedIllustration = document.getElementById("result-illustration-accepted");
+      var reviewIllustration = document.getElementById("result-illustration-review");
+
+      if (!acceptedBlock || !reviewBlock || !acceptedIllustration || !reviewIllustration) return;
+
+      function sync() {
+        var acceptedVisible = !acceptedBlock.classList.contains("hidden");
+        var reviewVisible = !reviewBlock.classList.contains("hidden");
+
+        acceptedIllustration.classList.toggle("hidden", !acceptedVisible);
+        reviewIllustration.classList.toggle("hidden", !reviewVisible);
+      }
+
+      sync();
+
+      var observer = new MutationObserver(sync);
+      observer.observe(acceptedBlock, { attributes: true, attributeFilter: ["class"] });
+      observer.observe(reviewBlock, { attributes: true, attributeFilter: ["class"] });
+    })();
+  </script>
 </body>
 </html>

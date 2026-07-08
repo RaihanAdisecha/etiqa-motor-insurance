@@ -65,9 +65,24 @@
     <!-- ============================================================
          POLICY ISSUED CARD (hidden sampai data polis siap)
          ============================================================ -->
-    <div class="card hidden" id="policy-section">
-      <div class="card__header">
-        <h2 class="mb-0">Polis Diterbitkan</h2>
+    <div class="card hidden certificate" id="policy-section">
+
+      <!-- Decorative watermark, purely visual, does not affect layout height -->
+      <div class="certificate__watermark" aria-hidden="true">ETIQA</div>
+
+      <div class="certificate__ribbon no-print"></div>
+
+      <div class="card__header certificate__header">
+        <div class="certificate__brand">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L4 5V11C4 16.55 7.84 21.74 12 23C16.16 21.74 20 16.55 20 11V5L12 2Z" stroke="var(--color-primary)" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M9 12L11 14L15.5 9.5" stroke="var(--color-primary)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div>
+            <h2 class="mb-0">Sertifikat Polis</h2>
+            <p class="mb-0 certificate__subtitle">Motor Vehicle Insurance Indonesia</p>
+          </div>
+        </div>
       </div>
 
       <div class="text-center mb-3">
@@ -75,13 +90,19 @@
       </div>
 
       <div class="card__section text-center">
-        <h3>Nomor Polis</h3>
-        <p class="policy-number" id="policy-number">-</p>
+        <h3 class="certificate__eyebrow">Nomor Polis</h3>
+        <p class="policy-number-badge" id="policy-number">-</p>
         <p class="field-hint" id="policy-issued-at">-</p>
       </div>
 
       <div class="card__section">
-        <h3>Data Diri</h3>
+        <div class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="8" r="3.5" stroke="var(--color-primary)" stroke-width="1.7"/>
+            <path d="M4.5 20C5.5 16 8.4 14.5 12 14.5C15.6 14.5 18.5 16 19.5 20" stroke="var(--color-primary)" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+          <h3 class="mb-0">Data Diri</h3>
+        </div>
         <ul class="summary-list">
           <li><span class="label">Nama</span><span class="value" id="detail-customer-name">-</span></li>
           <li><span class="label">Email</span><span class="value" id="detail-customer-email">-</span></li>
@@ -90,7 +111,15 @@
       </div>
 
       <div class="card__section">
-        <h3>Data Kendaraan</h3>
+        <div class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 11L6.5 6.5C6.77 5.68 7.54 5 8.5 5H15.5C16.46 5 17.23 5.68 17.5 6.5L19 11" stroke="var(--color-primary)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="3" y="11" width="18" height="6.5" rx="1.6" stroke="var(--color-primary)" stroke-width="1.7"/>
+            <circle cx="7" cy="17.5" r="1.6" stroke="var(--color-primary)" stroke-width="1.7"/>
+            <circle cx="17" cy="17.5" r="1.6" stroke="var(--color-primary)" stroke-width="1.7"/>
+          </svg>
+          <h3 class="mb-0">Data Kendaraan</h3>
+        </div>
         <ul class="summary-list">
           <li><span class="label">Tipe Kendaraan</span><span class="value" id="detail-vehicle-type">-</span></li>
           <li><span class="label">Merek / Model</span><span class="value" id="detail-vehicle-brand-model">-</span></li>
@@ -102,7 +131,13 @@
       </div>
 
       <div class="card__section">
-        <h3>Perhitungan Premi</h3>
+        <div class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L4 5V11C4 16.55 7.84 21.74 12 23C16.16 21.74 20 16.55 20 11V5L12 2Z" stroke="var(--color-primary)" stroke-width="1.7" stroke-linejoin="round"/>
+            <path d="M9 12L11 14L15.5 9.5" stroke="var(--color-primary)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h3 class="mb-0">Perhitungan Premi</h3>
+        </div>
         <ul class="summary-list">
           <li><span class="label">Jenis Coverage</span><span class="value" id="detail-coverage">-</span></li>
           <li><span class="label">Rate yang Digunakan</span><span class="value" id="detail-rate">-</span></li>
@@ -111,10 +146,22 @@
       </div>
 
       <div class="card__section">
-        <h3>Status Underwriting</h3>
+        <div class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 11L12 3L15 11" stroke="var(--color-primary)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6 8.5H18" stroke="var(--color-primary)" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M12 3V21M8 21H16" stroke="var(--color-primary)" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <h3 class="mb-0">Status Underwriting</h3>
+        </div>
         <ul class="summary-list">
           <li><span class="label">Keputusan</span><span class="value" id="detail-underwriting-decision">-</span></li>
         </ul>
+      </div>
+
+      <div class="certificate__footer-note">
+        Dokumen ini adalah sertifikat digital yang diterbitkan secara elektronik dan sah tanpa
+        tanda tangan basah, sesuai dengan alur penerbitan polis Etiqa Insurance Indonesia.
       </div>
 
       <div class="btn-row no-print">
@@ -129,6 +176,10 @@
     <div class="card no-print" id="policy-search-section">
       <div class="card__header">
         <h2 class="mb-0">Cek Polis Lain</h2>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="10.5" cy="10.5" r="6.5" stroke="var(--color-primary)" stroke-width="1.7"/>
+          <path d="M20 20L15.2 15.2" stroke="var(--color-primary)" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
       </div>
       <p>Masukkan nomor polis untuk melihat kembali detail polis yang sudah diterbitkan.</p>
       <div class="form-group">

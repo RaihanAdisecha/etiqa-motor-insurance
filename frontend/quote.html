@@ -58,10 +58,27 @@
     <div class="card" id="quote-section">
       <div class="card__header">
         <h2 class="mb-0">Ringkasan Penawaran (Quote Summary)</h2>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 3H15L20 8V19C20 20.1 19.1 21 18 21H7C5.9 21 5 20.1 5 19V5C5 3.9 5.9 3 7 3Z" stroke="var(--color-primary)" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M15 3V8H20" stroke="var(--color-primary)" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M9 12.5H15M9 15.5H15M9 9.5H11.5" stroke="var(--color-primary)" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <!-- Highlighted premium moved to top for immediate visibility -->
+      <div class="premium-highlight">
+        <div class="premium-highlight__label">Estimasi Premi Tahunan</div>
+        <div class="premium-highlight__value" id="summary-premium-highlight">-</div>
       </div>
 
       <div class="card__section">
-        <h3>Data Diri</h3>
+        <div class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="8" r="3.5" stroke="var(--color-primary)" stroke-width="1.7"/>
+            <path d="M4.5 20C5.5 16 8.4 14.5 12 14.5C15.6 14.5 18.5 16 19.5 20" stroke="var(--color-primary)" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+          <h3 class="mb-0">Data Diri</h3>
+        </div>
         <ul class="summary-list">
           <li><span class="label">Nama</span><span class="value" id="summary-customer-name">-</span></li>
           <li><span class="label">Email</span><span class="value" id="summary-customer-email">-</span></li>
@@ -70,7 +87,15 @@
       </div>
 
       <div class="card__section">
-        <h3>Data Kendaraan</h3>
+        <div class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 11L6.5 6.5C6.77 5.68 7.54 5 8.5 5H15.5C16.46 5 17.23 5.68 17.5 6.5L19 11" stroke="var(--color-primary)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="3" y="11" width="18" height="6.5" rx="1.6" stroke="var(--color-primary)" stroke-width="1.7"/>
+            <circle cx="7" cy="17.5" r="1.6" stroke="var(--color-primary)" stroke-width="1.7"/>
+            <circle cx="17" cy="17.5" r="1.6" stroke="var(--color-primary)" stroke-width="1.7"/>
+          </svg>
+          <h3 class="mb-0">Data Kendaraan</h3>
+        </div>
         <ul class="summary-list">
           <li><span class="label">Tipe Kendaraan</span><span class="value" id="summary-vehicle-type">-</span></li>
           <li><span class="label">Merek / Model</span><span class="value" id="summary-vehicle-brand-model">-</span></li>
@@ -82,7 +107,13 @@
       </div>
 
       <div class="card__section">
-        <h3>Perhitungan Premi</h3>
+        <div class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L4 5V11C4 16.55 7.84 21.74 12 23C16.16 21.74 20 16.55 20 11V5L12 2Z" stroke="var(--color-primary)" stroke-width="1.7" stroke-linejoin="round"/>
+            <path d="M9 12L11 14L15.5 9.5" stroke="var(--color-primary)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h3 class="mb-0">Perhitungan Premi</h3>
+        </div>
         <ul class="summary-list">
           <li><span class="label">Jenis Coverage</span><span class="value" id="summary-coverage">-</span></li>
           <li><span class="label">Rate yang Digunakan</span><span class="value" id="summary-rate">-</span></li>
@@ -110,5 +141,29 @@
 
   <script src="js/api.js"></script>
   <script src="js/quote.js"></script>
+
+  <!-- ============================================================
+       Progressive enhancement: mirror premium value into the
+       highlighted hero block without touching quote.js.
+       This purely reads the DOM text content quote.js already
+       writes into #summary-premium and copies it visually; it does
+       not alter any state, storage, or business logic.
+       ============================================================ -->
+  <script>
+    (function mirrorPremiumHighlight() {
+      var sourceEl = document.getElementById("summary-premium");
+      var targetEl = document.getElementById("summary-premium-highlight");
+      if (!sourceEl || !targetEl) return;
+
+      function sync() {
+        targetEl.textContent = sourceEl.textContent;
+      }
+
+      sync();
+
+      var observer = new MutationObserver(sync);
+      observer.observe(sourceEl, { childList: true, characterData: true, subtree: true });
+    })();
+  </script>
 </body>
 </html>
